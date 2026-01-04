@@ -17,9 +17,10 @@ A simple board game tracker to keep track of games you've played and want to pla
 npm install
 ```
 
-2. **(Optional but Recommended)** Get a BoardGameGeek API token:
+2. **REQUIRED:** Get a BoardGameGeek API token:
    - Visit [https://boardgamegeek.com/using_the_xml_api](https://boardgamegeek.com/using_the_xml_api)
-   - Register your application
+   - Register your application (required as of fall 2025)
+   - **Without this token, search will NOT work**
    - Set the token as an environment variable:
      ```bash
      export BGG_API_TOKEN=your_token_here
@@ -54,7 +55,7 @@ The app includes several features to ensure reliable BGG API usage:
 - **Rate Limiting:** Automatic 2-second delay between requests
 - **Caching:** Results cached for 1 hour to reduce API calls
 - **Retry Logic:** Automatic retries for queued (202) and rate-limited (503) responses
-- **Authorization:** Optional BGG API token support (may be required in future)
+- **Authorization:** BGG API token REQUIRED (enforced as of fall 2025)
 
 **Note:** The BGG API is free for personal/non-commercial use. Commercial use requires approval from BoardGameGeek.
 
