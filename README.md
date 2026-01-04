@@ -17,12 +17,21 @@ A simple board game tracker to keep track of games you've played and want to pla
 npm install
 ```
 
-2. Start the server:
+2. **(Optional but Recommended)** Get a BoardGameGeek API token:
+   - Visit [https://boardgamegeek.com/using_the_xml_api](https://boardgamegeek.com/using_the_xml_api)
+   - Register your application
+   - Set the token as an environment variable:
+     ```bash
+     export BGG_API_TOKEN=your_token_here
+     ```
+   - Or on Render: Add `BGG_API_TOKEN` in Environment Variables section
+
+3. Start the server:
 ```bash
 npm start
 ```
 
-3. Open your browser to: `http://localhost:3000`
+4. Open your browser to: `http://localhost:3000`
 
 ## Usage
 
@@ -33,10 +42,21 @@ npm start
 
 ## Tech Stack
 
-- **Backend**: Node.js + Express
-- **Database**: SQLite (better-sqlite3)
-- **Frontend**: HTML, CSS, JavaScript
-- **API**: BoardGameGeek XML API2
+- **Backend:** Node.js + Express
+- **Database:** SQLite (better-sqlite3)
+- **Frontend:** HTML, CSS, JavaScript
+- **External API:** BoardGameGeek XML API2 (free for non-commercial use)
+
+## BGG API Integration
+
+The app includes several features to ensure reliable BGG API usage:
+
+- **Rate Limiting:** Automatic 2-second delay between requests
+- **Caching:** Results cached for 1 hour to reduce API calls
+- **Retry Logic:** Automatic retries for queued (202) and rate-limited (503) responses
+- **Authorization:** Optional BGG API token support (may be required in future)
+
+**Note:** The BGG API is free for personal/non-commercial use. Commercial use requires approval from BoardGameGeek.
 
 ## Database
 
