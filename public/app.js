@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = `http://${window.location.hostname}:3000/api`;
 
 // Load games on page load
 document.addEventListener('DOMContentLoaded', () => {

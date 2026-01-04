@@ -230,6 +230,7 @@ app.delete('/api/games/:id', (req, res) => {
   res.json({ success: true });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Access from mobile: http://<your-computer-ip>:${PORT}`);
 });
