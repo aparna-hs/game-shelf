@@ -21,9 +21,16 @@ async function searchGames() {
 
     try {
         const response = await fetch(`${API_URL}/search?q=${encodeURIComponent(query)}`);
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            resultsDiv.innerHTML = `<p class="empty-state">${errorData.error || 'Error searching games. Please try again.'}</p>`;
+            return;
+        }
+
         const games = await response.json();
 
-        if (games.length === 0) {
+        if (!Array.isArray(games) || games.length === 0) {
             resultsDiv.innerHTML = '<p class="empty-state">No games found</p>';
             return;
         }
@@ -46,7 +53,7 @@ async function searchGames() {
         `).join('');
     } catch (error) {
         console.error('Search error:', error);
-        resultsDiv.innerHTML = '<p class="empty-state">Error searching games</p>';
+        resultsDiv.innerHTML = '<p class="empty-state">Error connecting to server. Please try again.</p>';
     }
 }
 

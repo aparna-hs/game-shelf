@@ -43,7 +43,11 @@ db.exec(`
 async function searchBGG(query) {
   try {
     const response = await axios.get(`https://boardgamegeek.com/xmlapi2/search`, {
-      params: { query, type: 'boardgame' }
+      params: { query, type: 'boardgame' },
+      timeout: 15000,
+      headers: {
+        'User-Agent': 'GameShelf/1.0'
+      }
     });
 
     const parser = new xml2js.Parser();
@@ -60,14 +64,18 @@ async function searchBGG(query) {
     }));
   } catch (error) {
     console.error('BGG search error:', error.message);
-    return [];
+    throw new Error('Failed to search BoardGameGeek');
   }
 }
 
 async function getGameDetails(bggId) {
   try {
     const response = await axios.get(`https://boardgamegeek.com/xmlapi2/thing`, {
-      params: { id: bggId, type: 'boardgame' }
+      params: { id: bggId, type: 'boardgame' },
+      timeout: 15000,
+      headers: {
+        'User-Agent': 'GameShelf/1.0'
+      }
     });
 
     const parser = new xml2js.Parser();
@@ -87,7 +95,7 @@ async function getGameDetails(bggId) {
     };
   } catch (error) {
     console.error('BGG details error:', error.message);
-    return null;
+    throw new Error('Failed to fetch game details from BoardGameGeek');
   }
 }
 
@@ -100,8 +108,13 @@ app.get('/api/search', async (req, res) => {
     return res.status(400).json({ error: 'Query parameter required' });
   }
 
-  const results = await searchBGG(q);
-  res.json(results);
+  try {
+    const results = await searchBGG(q);
+    res.json(results);
+  } catch (error) {
+    console.error('Search endpoint error:', error);
+    res.status(503).json({ error: 'Failed to search BoardGameGeek. Please try again.' });
+  }
 });
 
 // Add game to collection
@@ -228,6 +241,11 @@ app.delete('/api/games/:id', (req, res) => {
   const stmt = db.prepare('DELETE FROM user_games WHERE id = ?');
   stmt.run(id);
   res.json({ success: true });
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
