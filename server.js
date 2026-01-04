@@ -6,7 +6,7 @@ const axios = require('axios');
 const xml2js = require('xml2js');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
