@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Shelf - Track Your Board Games</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎲 Game Shelf</h1>
+            <p>Track your board game collection</p>
+        </header>
+
+        <!-- Add Game Section -->
+        <section class="add-game">
+            <h2>Add a Game</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search BoardGameGeek...">
+                <button onclick="searchGames()">Search</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </section>
+
+        <!-- Games Played Section -->
+        <section class="games-section">
+            <h2>Games I've Played</h2>
+            <div id="playedGames" class="games-grid"></div>
+        </section>
+
+        <!-- Want to Play Section -->
+        <section class="games-section">
+            <h2>Want to Play</h2>
+            <div id="wantToPlayGames" class="games-grid"></div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
